@@ -4,13 +4,13 @@ title: About me
 subtitle: Why you'd want to go on a date with me
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+My name is Dan Ferber. I am:
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+- currently a student at Lambda school in the data science program
+- a PPG pilot.
 
-What else do you need?
+What can I say? 
 
 ### My story
 
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](https://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+I graduated high school in 2005, and bounced around to a few colleges for a few years. I finally got my associates from Delaware County Community College in 2013, and moved on to Widener university, where I graduated with a degree in computer science in 2016. I went to work at a small company as a programmer, and found my hobby of flight, but the work quickly became unsatisfying. I wanted a change, and the pandemic cut my working hours, which allowed me to enroll in the program at Lambda school.
