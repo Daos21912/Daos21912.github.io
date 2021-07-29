@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Build Week Project
-subtitle: Using drivendata.org's competition data to predict earthquake damage
+title: Earthquake damage
+subtitle: Using drivendata.org's competition data to predict earthquake damage to a building
 tags: [test]
 comments: true
 ---
