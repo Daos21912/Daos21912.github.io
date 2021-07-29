@@ -69,4 +69,4 @@ Afterward, I tried a similar method for hyperparameter tuning, using a randomize
 |   macro avg |      0.95   |   0.90  |    0.92  |   52121 |
 |weighted avg |      0.93   |   0.93  |    0.93  |   5212  |
 
-As seen in the chart above, the precision scores were good, but the recall scores could have been better. Overall though, I believed I had achieved the best model I could with the data presented. I tried a shap waterfall plot, but this didn't give me any more information than the one for my XGBoost model did. I did find the ROC-AUC score, thought I wasn't able to plot a curve as my classification wasn't binary. The score was pretty good at 0.85
+As seen in the chart above, the precision scores were good, but the recall scores could have been better. Overall though, I believed I had achieved the best model I could with the data presented. I tried a shap waterfall plot, but this didn't give me any more information than the one for my XGBoost model did. I did find the ROC-AUC score, thought I wasn't able to plot a curve as my classification problem wasn't binary. The score was pretty good at 0.85
