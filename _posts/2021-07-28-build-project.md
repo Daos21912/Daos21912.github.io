@@ -54,3 +54,13 @@ model_rfdc = make_pipeline(
 )
 model_rfdc.fit(X_train.drop(columns=cols_to_remove), y_train)
 ~~~
+
+Afterward, I tried a similar method for hyperparameter tuning, using a randomized search CV for my random forest model, and came away with training and test accuracies of almost 93%. I also wanted to look at precision and recall, so I used the classification_report class. This yielded the results below:
+
+| class | precision | recall | f1-score |
+| :------ |:--- | :--- | :--- |
+| 1 | 0.99 | 0.86 | 0.92 |
+| 2 | 0.91 | 0.97 | 0.94 |
+| 3 | 0.95 | 0.87 | 0.91 |
+
+As seen in the chart above, the precision scores were good, but the recall scores could have been better. Overall though, I believed I had achieved the best model I could with the data presented.
