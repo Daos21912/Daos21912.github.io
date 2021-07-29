@@ -13,6 +13,7 @@ The data from the competition came already quite clean, and so there was minimal
 Once the data was imported sucessfully, I jumped right into model building. The classes for my target, damage_grade, weren't quite balanced. There were three of them, but the highest frequency class occured over 54% of the time. Even so, I believed this was good enough for model building.
 
 **XGBoostClassifier**
+
 I started with an XGBoostClassifier model, in a simple pipeline with just an ordinal encoder. I used this as there were several columns that were encoded as characters. I started by checking the permutation importance. There was a small increase in model performance, so I kept the newer model and moved on to hyperparameter tuning with the following code:
 ~~~
 clf = make_pipeline(
@@ -37,6 +38,7 @@ model.fit(X_train.drop(columns=cols_to_remove), y_train)
 This yielded a model with a fairly significant increase in the validation score, but it was still below 80%. I wanted a better model, but I also wanted more information, so I plotted a shap waterfall. This ended up not yielding much information.
 
 **Random Forest**
+
 I moved on to the RandomForestClassifier class, and fit a standard model with the same type of pipeline. This yielded a massively overfit model, but with a promising validation score, similar to what the XGBoost classifier yielded. I checked the permutation importances with the code below, but found no improvement with the model afterward.
 ~~~
 perm_imp = permutation_importance(model_rf, X_val, y_val, random_state=42)
