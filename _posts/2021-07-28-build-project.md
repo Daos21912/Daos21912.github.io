@@ -8,7 +8,7 @@ comments: true
 
 For this project I've taken up the challenge on drivendata.org about predicting damage to a building from an earthquake. The damage is categorized into minimal, substantial, and complete destruction. The competition can be found [here](https://www.drivendata.org/competitions/57/nepal-earthquake/page/136/)
 
-The data from the competition came already quite clean, and so there was minimal wrangling. There was a small issue converting the code into colab, but only because I tried to link directly to the data from my google drive. Once uploaded into the colab notebook the files worked just fine.
+The data from the competition came already quite clean, and so there was minimal wrangling. The shape of the dataframe, once correctly imported was (260601, 39)
 
 Once the data was imported sucessfully, I plotted a heatmap, just to make sure there was no data leakage:
 
