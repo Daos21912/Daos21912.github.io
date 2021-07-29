@@ -57,12 +57,16 @@ model_rfdc = make_pipeline(
 model_rfdc.fit(X_train.drop(columns=cols_to_remove), y_train)
 ~~~
 
-Afterward, I tried a similar method for hyperparameter tuning, using a randomized search CV for my random forest model, and came away with training and test accuracies of almost 93%. I also wanted to look at precision and recall, so I used the classification_report class. This yielded the results below:
+Afterward, I tried a similar method for hyperparameter tuning, using a randomized search CV for my random forest model. This time I used max_depth and n_estimators as my hyperparameters. I came away with training and test accuracies of almost 93%. I also wanted to look at precision and recall, so I used the classification_report class. This yielded the results below:
 
-| class | precision | recall | f1-score |
-| :------ |:--- | :--- | :--- |
-| 1 | 0.99 | 0.86 | 0.92 |
-| 2 | 0.91 | 0.97 | 0.94 |
-| 3 | 0.95 | 0.87 | 0.91 |
+
+|         | precision  |  recall | f1-score | support |
+| :------ | :--- | :--- | :--- | :--- |
+|           1 |      0.99   |   0.86  |    0.92  |    5170 |
+|           2 |      0.91   |   0.97  |    0.94  |   29487 |
+|           3 |      0.95   |   0.87  |    0.91  |   17464 |
+|    accuracy |             |         |    0.93  |   52121 |
+|   macro avg |      0.95   |   0.90  |    0.92  |   52121 |
+|weighted avg |      0.93   |   0.93  |    0.93  |   5212  |
 
 As seen in the chart above, the precision scores were good, but the recall scores could have been better. Overall though, I believed I had achieved the best model I could with the data presented. I tried a shap waterfall plot, but this didn't give me any more information than the one for my XGBoost model did. I did find the ROC-AUC score, thought I wasn't able to plot a curve as my classification wasn't binary. The score was pretty good at 0.85
