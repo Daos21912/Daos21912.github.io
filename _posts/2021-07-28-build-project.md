@@ -10,7 +10,12 @@ For this project I've taken up the challenge on drivendata.org about predicting 
 
 The data from the competition came already quite clean, and so there was minimal wrangling. There was a small issue converting the code into colab, but only because I tried to link directly to the data from my google drive. Once uploaded into the colab notebook the files worked just fine.
 
-Once the data was imported sucessfully, I jumped right into model building. The classes for my target, damage_grade, weren't quite balanced. There were three of them, but the highest frequency class occured over 54% of the time. Even so, I believed this was good enough for model building.
+Once the data was imported sucessfully, I plotted a heatmap, just to make sure there was no data leakage:
+
+![heatmap](https://user-images.githubusercontent.com/84862112/127568185-0e8ebdf0-d185-4939-9eb6-07d675b9eb64.png)
+
+
+After I confirmed there was no issues with the data, I jumped right into model building. The classes for my target, damage_grade, weren't quite balanced. There were three of them, but the highest frequency class occured over 54% of the time. Even so, I believed this was good enough for model building.
 
 **XGBoostClassifier**
 
@@ -38,6 +43,8 @@ model.fit(X_train.drop(columns=cols_to_remove), y_train)
 This yielded a model with a fairly significant increase in the validation score, but it was still below 80%. I wanted a better model, but I also wanted more information, so I plotted a shap waterfall. This ended up not yielding much information.
 
 ![Shap waterfall XGB](https://user-images.githubusercontent.com/84862112/127565017-7d994020-5125-497f-b37d-d9e63dc22182.PNG)
+
+I also looked at a classification report for this model, and while precision was close to 0.70 for each class, recall was closer to 0.5 for classes 1 and 3. 
 
 **Random Forest**
 
@@ -69,4 +76,8 @@ Afterward, I tried a similar method for hyperparameter tuning, using a randomize
 |   macro avg |      0.95   |   0.90  |    0.92  |   52121 |
 |weighted avg |      0.93   |   0.93  |    0.93  |   5212  |
 
-As seen in the chart above, the precision scores were good, but the recall scores could have been better. Overall though, I believed I had achieved the best model I could with the data presented. I tried a shap waterfall plot, but this didn't give me any more information than the one for my XGBoost model did. I did find the ROC-AUC score, thought I wasn't able to plot a curve as my classification problem wasn't binary. The score was pretty good at 0.85
+As seen in the chart above, the precision scores were good, but the recall scores could have been better. Overall though, I believed I had achieved the best model I could with the data presented. I tried a shap waterfall plot, but this didn't give me any more information than the one for my XGBoost model did. I did find the ROC-AUC score, thought I wasn't able to plot a curve as my classification problem wasn't binary. The score was pretty good at 0.85. I also plotted a normalized confusion matrix, shown here:
+
+![Confusion matrix RF](https://user-images.githubusercontent.com/84862112/127567599-0d761066-d736-4299-b5de-3b6f41383e64.PNG)
+
+As shown, the classes 1 and 3 are fairly underrepresented, but that's the way it was in the recorded data as well. 
