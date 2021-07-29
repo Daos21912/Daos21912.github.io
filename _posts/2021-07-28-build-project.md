@@ -37,6 +37,8 @@ model.fit(X_train.drop(columns=cols_to_remove), y_train)
 ~~~
 This yielded a model with a fairly significant increase in the validation score, but it was still below 80%. I wanted a better model, but I also wanted more information, so I plotted a shap waterfall. This ended up not yielding much information.
 
+![Shap waterfall XGB](https://user-images.githubusercontent.com/84862112/127565017-7d994020-5125-497f-b37d-d9e63dc22182.PNG)
+
 **Random Forest**
 
 I moved on to the RandomForestClassifier class, and fit a standard model with the same type of pipeline. This yielded a massively overfit model, but with a promising validation score, similar to what the XGBoost classifier yielded. I checked the permutation importances with the code below, but found no improvement with the model afterward.
