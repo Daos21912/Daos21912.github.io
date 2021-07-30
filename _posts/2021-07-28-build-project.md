@@ -6,16 +6,26 @@ tags: [test]
 comments: true
 ---
 
+## Introduction
+
 For this project I've taken up the challenge on drivendata.org about predicting damage to a building from an earthquake. The damage is categorized into minimal, substantial, and complete destruction. The competition can be found [here](https://www.drivendata.org/competitions/57/nepal-earthquake/page/136/)
 
-The data from the competition came already quite clean, and so there was minimal wrangling. The shape of the dataframe, once correctly imported was (260601, 39)
+**Data Wrangling**
 
-Once the data was imported sucessfully, I plotted a heatmap, just to make sure there was no data leakage:
+The data from the competition came already quite clean, and so there was minimal wrangling. All of the data was already encoded to some degree, the location data was split into three continuous columns, and even things like building materials were either character encoded, or one-hot encoded. The shape of the dataframe, once correctly imported was 260601 rows, 39 columns. Once the data was imported sucessfully, I plotted a heatmap, just to make sure there was no data leakage:
 
 ![heatmap](https://user-images.githubusercontent.com/84862112/127568185-0e8ebdf0-d185-4939-9eb6-07d675b9eb64.png)
 
 
-After I confirmed there was no issues with the data, I jumped right into model building. The classes for my target, damage_grade, weren't quite balanced. There were three of them, but the highest frequency class occured over 54% of the time. Even so, I believed this was good enough for model building.
+After I confirmed there was no issues with the data, I jumped right into model building. The classes for my target, damage_grade, weren't quite balanced. There were three of them, but the highest frequency class occured over 54% of the time. Even so, I believed this was good enough for model building. The distribution of the target class is as follows:
+
+| Class | Percent Dist |
+| :------ | :--- |
+| 1 |   0.095712 |
+| 2 |   0.569705 |
+| 3 |   0.334584 |
+
+## Model Building
 
 **XGBoostClassifier**
 
@@ -80,4 +90,4 @@ As seen in the chart above, the precision scores were good, but the recall score
 
 ![Confusion matrix RF](https://user-images.githubusercontent.com/84862112/127567599-0d761066-d736-4299-b5de-3b6f41383e64.PNG)
 
-As shown, the classes 1 and 3 are fairly underrepresented, but that's the way it was in the recorded data as well. 
+As shown, the classes 1 and 3 are fairly underrepresented, but that's the way it was in the recorded data as well.
