@@ -64,7 +64,6 @@ perm_imp = permutation_importance(model_rf, X_val, y_val, random_state=42)
 data = {'imp_mean':perm_imp['importances_mean'],
         'imp_std':perm_imp['importances_std']}
 df_perm = pd.DataFrame(data, index=X_val.columns).sort_values('imp_mean')
-df_perm
 
 cols_to_remove = df_perm[df_perm['imp_mean'] <= 0].index
 model_rfdc = make_pipeline(
@@ -91,3 +90,13 @@ As seen in the chart above, the precision scores were good, but the recall score
 ![Confusion matrix RF](https://user-images.githubusercontent.com/84862112/127567599-0d761066-d736-4299-b5de-3b6f41383e64.PNG)
 
 As shown, the classes 1 and 3 are fairly underrepresented, but that's the way it was in the recorded data as well.
+
+## Conclusions
+
+The final model produced good predictions. With average precision and recall over 90, and an accuracy of 93%. Looking to permutation importances, we can see our most impactful features here:
+
+![RF Perm Imp](https://user-images.githubusercontent.com/84862112/127662667-1b814377-2ebd-43b5-87a5-749336ddcf0f.png)
+
+Unfortunately, almost all of these are encoded, so we're not sure what exactly they mean. although the columns starting with 'has_superstructure' are one-hot encoded, the other top 8 are all encoded in a different way. The columns starting with 'geo_level' are the location data, but it's all encoded to protect the privacy of the building owners, and even foundation type is encoded as well. We can see, however, that these three data points are some of the most impactful in the model. To further improve the model, I would like to see data relating to the distance the building is from the epicenter, and the strength of the earthquake. While the structure of the building certainly plays a part in the level of damage it recieves, the encoded location data seems to play a bigger part. There's also no data about the strength of the earthquake or earthquakes involved. This is information I'd like to see.
+
+The competition used the micro-averaged F1 score as their metric. For my best model, the tuned random forest, the result for this metric on my validation set was 91%. This puts my model in a good spot for the competition, though I haven't yet recieved my score for the submission.
