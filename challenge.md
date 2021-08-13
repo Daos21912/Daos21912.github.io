@@ -1,279 +1,120 @@
-# Data Science Unit 3 Sprint Challenge 1
+# Data Science Unit 3 Sprint Challenge 2
+**IMPORTANT: Use the same name for files and variables that we use within this markdown** :)
 
-## Software Engineering - the Acme Way
+## Databases and SQL
 
-In this sprint challenge you will write code and answer questions related to
-object-oriented programming, code style/reviews, containers, and testing. You
-may use any tools and references you wish, but your final code should reflect
-*your* work and be saved in `.py` files (*not* notebooks), and (along with this
-file including your written answers) uploaded to Canvas in the Sprint Challenge Submission form.
+A SQL Query walks into a bar. In one corner of the bar are two tables. The Query
+walks up to the tables and asks:
+
+...
+
+*"Mind if I join you?"*
+
+---
+
+In this sprint challenge you will write code and answer questions related to databases, with a focus on SQL but an acknowledgment of the broader ecosystem. You may use any tools and references you wish, but your final code should reflect *your* work and be saved in `.py` files (*not* notebooks), and (along with this file including your written answers) uploaded in the Sprint Challenge Submission in Canvas.
 
 For all your code, you may only import/use the following:
-- Other modules you write
-- `pytest` (Install using pip)
-- `random` (from the standard library)
+- other modules you write
+- `sqlite3` (from the standard library)
 
-As always, make sure to manage your time - get a section/question to "good
-enough" and then move on to make sure you do everything. You can always revisit
-and polish at the end if time allows.
+As always, make sure to manage your time - get a section/question to "good enough" and then move on to make sure you do everything. You can always revisit and polish at the end if time allows.
 
-This file is Markdown, so it can be helpful to render with VS Code or a
-notebook to make it easier to look at.
+This file is Markdown, so it may be helpful to open with VS Code or another tool that allows you to view it nicely rendered.
 
 Good luck!
 
-### Part 1 - Keeping it Classy
+### Part 1 - Making and populating a Database
 
-As an employee of Acme Corporation, you're always looking for ways to better
-organize the vast quantities and variety of goods your company manages and
-sells. Everything Acme sells is considered a `Product`, and must have the
-following fields (variables that live "inside" the class):
+Consider the following data:
 
-- `name` (string with no default)
-- `price` (integer with default value 10)
-- `weight` (integer with default value 20)
-- `flammability` (float with default value 0.5)
-- `identifier` (integer, automatically genererated as a random (uniform) number
-  anywhere from 1000000 to 9999999, includisve)(inclusive).
+| s   | x | y |
+|-----|---|---|
+| 'g' | 3 | 9 |
+| 'v' | 5 | 7 |
+| 'f' | 8 | 7 |
 
-Write a Python `class` to model the above data. Make sure you are *precise* in
-your field names and types, and that your class has an `__init__` constructor
-method with appropriate defaults (or lack thereof).
+Using the standard `sqlite3` module:
 
-*Hint* - `random.randint` should be able to serve your random number needs.
+- Open a connection to a new (blank) database file `demo_data.sqlite3`
+- Make a cursor, and execute an appropriate `CREATE TABLE` statement to accept
+  the above data (name the table `demo`)
+- Write and execute appropriate `INSERT INTO` statements to add the data (as
+  shown above) to the database
 
-Save the class in `acme.py`, and you can test your code in a Python repl as
-follows:
+Make sure to `commit()` so your data is saved! The file size should be non-zero.
 
-```python
->>> from acme import Product
->>> prod = Product('A Cool Toy')
->>> prod.name
-'A Cool Toy'
->>> prod.price
-10
->>> prod.weight
-20
->>> prod.flammability
-0.5
->>> prod.identifier
-2812086  # your value will vary
-```
+Then write the following queries (also with `sqlite3`) to test the demo database and
+save them under the following variables names:
 
-### Part 2 - Objects that Go!
+- `row_count`: Count how many rows you have - it should be 3!
+- `xy_at_least_5`: How many rows are there where both `x` and `y` are at least 5?
+- `unique_y`: How many unique values of `y` are there (hint - `COUNT()` can accept a keyword
+  `DISTINCT`)?
 
-The class you wrote in part 1 is nice, but it doesn't *do* anything - that is,
-it doesn't have any *methods*. So let's add some! Specifically, add two methods:
+Your code (to reproduce all above steps) should be saved in `demo_data.py` and
+turned in along with the generated SQLite database.
 
-- `stealability(self)` - calculates the price divided by the weight, and then
-  returns a message: if the ratio is less than 0.5 return "Not so stealable...",
-  if it is greater or equal to 0.5 but less than 1.0 return "Kinda stealable.",
-  and otherwise return "Very stealable!"
-- `explode(self)` - calculates the flammability times the weight, and then
-  returns a message: if the product is less than 10 return "...fizzle.", if it is
-  greater or equal to 10 but less than 50 return "...boom!", and otherwise
-  return "...BABOOM!!"
+### Part 2 - The Northwind Database
 
-Save your code, and you can test as follows:
+Using `sqlite3`, connect to the given `northwind_small.sqlite3` database.
+
+![Northwind Entity-Relationship Diagram](./northwind_erd.png)
+
+Above is an entity-relationship diagram - a picture summarizing the schema and relationships in the database. Note that it was generated using Microsoft
+Access, and some of the specific table/field names are different in the provided data. You can see all the tables available to SQLite as follows:
 
 ```python
->>> from acme import Product
->>> prod = Product('A Cool Toy')
->>> prod.stealability()
-'Kinda stealable.'
->>> prod.explode()
-'...boom!'
+>>> curs.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY
+name;").fetchall()
+[('Category',), ('Customer',), ('CustomerCustomerDemo',),
+('CustomerDemographic',), ('Employee',), ('EmployeeTerritory',), ('Order',),
+('OrderDetail',), ('Product',), ('Region',), ('Shipper',), ('Supplier',),
+('Territory',)]
 ```
 
-### Part 3 - A Proper Inheritance
-
-Of course, Acme doesn't just sell generic products - it sells all sorts of
-special specific things!
-
-Make a subclass of `Product` named `BoxingGlove` that does the following:
-
-- Change the default `weight` to 10 (but leave other defaults unchanged)
-- Override the `explode` method to always return "...it's a glove."
-- Add a `punch` method that returns "That tickles." if the weight is below 5,
-  "Hey that hurt!" if the weight is greater or equal to 5 but less than 15, and
-  "OUCH!" otherwise
-  
-Example test run:
-
+*Warning*: unlike the diagram, the tables in SQLite are singular and not plural (do not end in `s`). And you can see the schema (`CREATE TABLE` statement) behind any given table with:
 ```python
->>> from acme import BoxingGlove
->>> glove = BoxingGlove('Punchy the Third')
->>> glove.price
-10
->>> glove.weight
-10
->>> glove.punch()
-'Hey that hurt!'
->>> glove.explode()
-"...it's a glove."
+>>> curs.execute('SELECT sql FROM sqlite_master WHERE name="Customer";').fetchall()
+[('CREATE TABLE "Customer" \n(\n  "Id" VARCHAR(8000) PRIMARY KEY, \n
+"CompanyName" VARCHAR(8000) NULL, \n  "ContactName" VARCHAR(8000) NULL, \n
+"ContactTitle" VARCHAR(8000) NULL, \n  "Address" VARCHAR(8000) NULL, \n  "City"
+VARCHAR(8000) NULL, \n  "Region" VARCHAR(8000) NULL, \n  "PostalCode"
+VARCHAR(8000) NULL, \n  "Country" VARCHAR(8000) NULL, \n  "Phone" VARCHAR(8000)
+NULL, \n  "Fax" VARCHAR(8000) NULL \n)',)]
 ```
 
-### Part 4 - Class Report
+In particular note that the *primary* key is `Id`, and not `CustomerId`. On other tables (where it is a *foreign* key) it will be `CustomerId`. Also note - the `Order` table conflicts with the `ORDER` keyword! We'll just avoid that particular table, but it's a good lesson in the danger of keyword conflicts.
 
-Now you can represent your inventory - let's use these classes and write an
-`acme_report.py` module to generate random products and print a summary of them.
-For the purposes of these functions we will only use the `Product` class.
+Answer the following questions (each is from a single table) and then save each query under the following variable name:
 
-Your module should include two functions:
+- `expensive_items`: What are the ten most expensive items (per unit price) in the database? Please return all columns in the table, not just the price and name but all columns.
+- `avg_hire_age`: What is the average age of an employee at the time of their hiring? (Hint: a
+  lot of arithmetic works with dates.)
+- (*Stretch*) `avg_age_by_city`: How does the average age of employee at hire vary by city?
 
-- `generate_products()` should generate a given number of products (default
-  30), randomly, and return them as a list
-- `inventory_report()` takes a list of products, and prints a "nice" summary
+Your code (to load and query the data) should be saved in `northwind.py`, and added to the repository. Do your best to answer in purely SQL, but if necessary use Python/other logic to help.
 
-For the purposes of generation, "random" means uniform - all possible values
-should vary uniformly across the following possibilities:
+### Part 3 - Sailing the Northwind Seas
 
-- `name` should be a random adjective from `['Awesome', 'Shiny', 'Impressive',
-  'Portable', 'Improved']` followed by a space and then a random noun from
-  `['Anvil', 'Catapult' 'Disguise' 'Mousetrap', '???']`, e.g. `'Awesome Anvil'`
-  and `Portable Catapult'` are both possible
-- `price` and `weight` should both be from 5 to 100 (inclusive and independent,
-  and remember - they're integers!)
-- `flammability` should be from 0.0 to 2.5 (floats)
+You've answered some basic questions from the Northwind database, looking at individual tables - now it's time to put things together, and `JOIN`!
 
-You should implement only depending on `random` from the standard library, your
-`Product` class from `acme.py`, and built-in Python functionality.
+Using `sqlite3` in `northwind.py`, answer the following:
 
-For the report, you should calculate and print the following values:
+- `ten_most_expensive`: What are the ten most expensive items (per unit price) in the database *and* their suppliers? Please return all columns in the table, not just the price and name but all columns. The supplier should be the last column.
+- `largest_category`: What is the largest category (by number of unique products in it)?
+- (*Stretch*) `most_territories`: Who's the employee with the most territories? Use `TerritoryId` (not name, region, or other fields) as the unique identifier for territories. You should be sure to include the employee id in the select statement and return all columns. 
 
-- Number of unique product names in the product list
-- Average (mean) price, weight, and flammability of listed products
+### Part 4 - Questions (and your Answers)
 
-Following is useful starting code for `acme_report.py`:
+Answer the following questions, baseline ~3-5 sentences each, as if they were interview screening questions (a form you fill when applying for a job):
 
-```python
-#!/usr/bin/env python
+- In the Northwind database, what is the type of relationship between the `Employee` and `Territory` tables?
+- What is a situation where a document store (like MongoDB) is appropriate, and what is a situation where it is not appropriate?
+- What is "NewSQL", and what is it trying to achieve?
 
-from random import randint, sample, uniform
-from acme import Product
+### Part 5 - Turn it in!
+Provide all the files you wrote (`demo_data.py`, `northwind.py`, `demo_data.sqlite3`), as well as this file with your answers to part 4. You're also encouraged to include the output from your queries as docstring comments, to facilitate grading and feedback. Thanks for your hard work!
 
-# Useful to use with random.sample to generate names
-ADJECTIVES = ['Awesome', 'Shiny', 'Impressive', 'Portable', 'Improved']
-NOUNS = ['Anvil', 'Catapult', 'Disguise', 'Mousetrap', '???']
-
-
-def generate_products(num_products=30):
-    products = []
-    # TODO - your code! Generate and add random products.
-    return products
-
-
-def inventory_report(products):
-    pass  # TODO - your code! Loop over the products to calculate the report.
-
-
-if __name__ == '__main__':
-    inventory_report(generate_products())
-```
-
-The last lines let you test by running `python acme_report.py`. You should see
-output like:
-
-```
-$ python acme_report.py 
-ACME CORPORATION OFFICIAL INVENTORY REPORT
-Unique product names: 19
-Average price: 56.8
-Average weight: 54.166666666666664
-Average flammability: 1.258097155966675
-```
-
-It's OK for the specifics to vary (how you message/format), but it should output
-and clearly identify all four relevant numbers.
-
-*Hint* - a great way to figure out how many unique things you have is to use a
-[set](https://docs.python.org/3.8/library/stdtypes.html#set-types-set-frozenset)
-(a collection where all items are unique, and inserting an existing item just
-doesn't do anything).
-```
->>> s = set()
->>> s.add(1)
->>> s.add(2)
->>> s
-{1, 2}
->>> s.add(3)
->>> s.add(1)
->>> s
-{1, 2, 3}
-```
-
-### Part 5 - Measure twice, Test once
-
-Make a file `acme_test.py` starting from the following code:
-
-```python
-#!/usr/bin/env python
-
-import pytest
-from acme import Product
-from acme_report import generate_products, ADJECTIVES, NOUNS
-
-
-def test_default_product_price(self):
-    """Test default product price being 10."""
-    prod = Product('Test Product')
-    assert prod.price == 10
-```
-Complete the following:
-
-- Add at least *2* more test methods to `acme_test.py` for the base
-  `Product` class: at least 1 that tests default values (as shown), and one that
-  builds an object with different values and ensures their `stealability()` and
-  `explode()` methods function as they should
-- Write at least 2 test functions that test the following:
-  `test_default_num_products` which checks that it really does receive a list of
-  length 30, and `test_legal_names` which checks that the generated names for a
-  default batch of products are all valid possible names to generate (adjective,
-  space, noun, from the lists of possible words)
-  
-*Hint* - `test_legal_names` is the trickiest of these, but may not be as bad as
-you think. Consider using `in` as part of your `assert` statement, and remember that Python is
-pretty handy at string processing. But if you get stuck, move on and revisit.
-
-Note that `inventory_report()` is pretty tricky to test, because it doesn't
-*return* anything - it just prints (a "side-effect"). For the purposes of this
-challenge, don't worry about testing it - but as a stretch goal/something to
-think about, it's a good ponderer.
-
-### Part 6 - Style it Up
-
-If you did the earlier parts in an editor that was linting your code (warning
-you about violations of [PEP8 style](https://pep8.org/)) and you listened to it,
-you're already done!
-
-If not, go back and fix things! If you don't have a built-in tool for checking,
-you can use [PEP8 online](http://pep8online.com/).
-
-Go for lint-free! If there's a stubborn warning or two you can't fix though,
-it's okay to leave a comment explaining it and move on.
-
-### Part 7 - Questions (and your Answers)
-
-Acme Corporation isn't just a few `.py` files. If you want to grow in your
-career here, you'll have to answer the following:
-
-- What, in your opinion, is an important part of code reviews? That is, what is
-  something you pay attention to when you review code, and that you appreciate
-  when others do the same for your code?
-- We have an awful lot of computers here, and it gets pretty confusing with
-  slightly different things running on all of them. How could containers help us
-  improve this situation?
-
-Answer both of these questions (baseline ~5 sentences) here in text.
-
-### Part 8 - Turn it in!
-
-Provide all the files you wrote (`acme.py`, `acme_report.py`, and
-`acme_test.py`), as well as *this* file with your answers to part 7, in your **upload to Canvas**. 
-
-Await feedback from Acme Corporation management. Thanks for your hard
-work!
-
-*Bonus!* Got this far? Read up on the [history of the fine Acme
-Corporation](https://en.wikipedia.org/wiki/Acme_Corporation), with decades of
-quality products and many satisfied customers (mostly coyotes).
+If you got this far, check out the [larger Northwind database](https://github.com/jpwhite3/northwind-SQLite3/blob/master/Northwind_large.sqlite.zip) -
+your queries should run on it as well, with richer results.
