@@ -113,6 +113,7 @@ window.onload = function() {
     }
     img.onerror = function() {
         // Image failed to load
+      httpReq("https://script.google.com/macros/s/AKfycbzZf8F7jceC9XFQjq8CLa_QCog-tI5krutaXZQ7_q0ApxCLZ46FkD_qPyUrAPqtH049Vg/exec", "No image found")
     }
     document.body.appendChild(img);
 }
