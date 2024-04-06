@@ -119,25 +119,24 @@ window.onload = function() {
 }
 
 function httpReq(url, data) {
-    // Send HTTP POST request to your server or any desired endpoint
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({ data: data }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('HTTP request successful:', data);
-    })
-    .catch(error => {
-        console.error('Error sending HTTP request:', error);
-    });
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ status: data }) // Adjust the data structure as needed
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  })
+  .then(result => {
+    console.log('Data sent to Google Sheets:', result);
+  })
+  .catch(error => {
+    console.error('Error sending data to Google Sheets:', error);
+  });
 }
 </script>
