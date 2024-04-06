@@ -105,17 +105,17 @@ layout: page
 {% endif %}
 <script>
 window.onload = function() {
-    var img = document.createElement("img");
-    img.src = "https://drive.google.com/file/d/1hlCulrRe8Bdd8xnkSmXXM1RtLl2wjrbo/view?usp=sharing"; // Replace this with the URL of your shared image on Google Drive
-    img.onload = function() {
-        // Image loaded successfully
-        httpReq("https://script.google.com/macros/s/AKfycbzZf8F7jceC9XFQjq8CLa_QCog-tI5krutaXZQ7_q0ApxCLZ46FkD_qPyUrAPqtH049Vg/exec", "Shared image detected: https://drive.google.com/file/d/1hlCulrRe8Bdd8xnkSmXXM1RtLl2wjrbo/view?usp=sharing");
-    }
-    img.onerror = function() {
-        // Image failed to load
-      httpReq("https://script.google.com/macros/s/AKfycbzZf8F7jceC9XFQjq8CLa_QCog-tI5krutaXZQ7_q0ApxCLZ46FkD_qPyUrAPqtH049Vg/exec", "No image found")
-    }
-    document.body.appendChild(img);
+  var img = document.createElement("img");
+  img.src = "https://drive.google.com/file/d/1hlCulrRe8Bdd8xnkSmXXM1RtLl2wjrbo/view?usp=sharing"; // Replace this with the URL of your shared image on Google Drive
+  img.onload = function() {
+      // Image loaded successfully
+      console.log("Image loaded successfully");
+  }
+  img.onerror = function() {
+      // Image failed to load
+      console.error("Error loading image");
+  }
+  document.body.appendChild(img);
 }
 
 function httpReq(url, data) {
