@@ -133,10 +133,11 @@ function httpReq(url, data) {
     return response.text();
   })
   .then(result => {
-    console.log('Data sent to Google Sheets:', result);
+    console.log('Data sent to Google Sheets:', result); // Log successful response
   })
   .catch(error => {
-    console.error('Error sending data to Google Sheets:', error);
+    console.error('Error sending data to Google Sheets:', error); // Log error
   });
 }
+
 </script>
